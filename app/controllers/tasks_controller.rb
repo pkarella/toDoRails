@@ -12,10 +12,26 @@ class TasksController < ApplicationController
       render :new
     end
   end
-  # def edit
-  #    @task = Task.find(params[:id])
-  #    render :new
-  #  end
+  def edit
+    @list = List.find(params[:list_id])
+     @task = Task.find(params[:id])
+     render :edit
+   end
+   def update
+    @list = List.find(params[:list_id])
+     @task= Task.find(params[:id])
+     if @task.update(task_params)
+       redirect_to lists_path(@task.list)
+     else
+       render :new
+     end
+     def destroy
+      @task = Task.find(params[:id])
+      @task.destroy
+      redirect_to lists_path(@task.list)
+    end
+   end
+
 private
   def task_params
     params.require(:task).permit(:description)
